@@ -1,22 +1,24 @@
-public class Node {
+package bean;
+
+public class BSTNode {
+
+    public int value;
+    public BSTNode parent;
+    public BSTNode leftChild;
+    public BSTNode rightChild;
+
+    public int layer;    //第几层
+    public int x;        //圆心x值
 
 
-    public Node(int value) {
+    public BSTNode(int value) {
         this.value = value;
     }
 
-    int value;
-    Node parent;
-    Node leftChild;
-    Node rightChild;
-
-    int layer;    //第几层
-    int x;        //圆心x值
-
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Node) {
-            return value == ((Node) obj).value;
+        if (obj instanceof BSTNode) {
+            return value == ((BSTNode) obj).value;
         } else {
             return false;
         }

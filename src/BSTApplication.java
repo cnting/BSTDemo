@@ -1,3 +1,4 @@
+import bean.BSTNode;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -13,6 +14,9 @@ import javafx.stage.Stage;
 
 import java.util.ArrayDeque;
 
+/**
+ * 二叉树
+ */
 public class BSTApplication extends Application {
 
     private double stageWidth = 1000;
@@ -22,7 +26,7 @@ public class BSTApplication extends Application {
     private int[] array = {150, 50, 30, 170, 160, 200, 120, 100, 60, 70, 130, 180, 230, 110, 55, 105, 111, 56};
     private int maxLayer;    //最大层数
     private double bottomLayerWidth;
-    private Node root;
+    private BSTNode root;
     private Stage primaryStage;
     private Text console;
 
@@ -32,7 +36,7 @@ public class BSTApplication extends Application {
         this.primaryStage = primaryStage;
         maxLayer = (int) Math.ceil(log(array.length, 2));
 
-        root = new Node(array[0]);
+        root = new BSTNode(array[0]);
         for (int i = 1; i < array.length; i++) {
             addNode(root, array[i]);
         }
@@ -46,9 +50,9 @@ public class BSTApplication extends Application {
      * @param root
      * @param value
      */
-    private void addNode(Node root, int value) {
-        Node node = root;
-        Node parent = null;
+    private void addNode(BSTNode root, int value) {
+        BSTNode node = root;
+        BSTNode parent = null;
         while (node != null) {
             parent = node;
             if (value < node.value) {
@@ -58,7 +62,7 @@ public class BSTApplication extends Application {
             }
         }
         if (parent != null) {
-            Node child = new Node(value);
+            BSTNode child = new BSTNode(value);
             child.parent = parent;
 
             if (value < parent.value) {
@@ -69,7 +73,7 @@ public class BSTApplication extends Application {
         }
     }
 
-    private void drawTree(Stage primaryStage, Node root) {
+    private void drawTree(Stage primaryStage, BSTNode root) {
         Rectangle2D rectangle2D = Screen.getPrimary().getVisualBounds();
         stageWidth = rectangle2D.getWidth();
         stateHeight = rectangle2D.getHeight();
@@ -102,9 +106,9 @@ public class BSTApplication extends Application {
      * @param pane
      * @param node
      */
-    private void traverseTree(Pane pane, Node node) {
-        ArrayDeque<Node> arrayDeque = new ArrayDeque<>();
-        Node parent = null;
+    private void traverseTree(Pane pane, BSTNode node) {
+        ArrayDeque<BSTNode> arrayDeque = new ArrayDeque<>();
+        BSTNode parent = null;
 
         bottomLayerWidth = getBottomLayerWidth();
 
@@ -125,7 +129,7 @@ public class BSTApplication extends Application {
         }
     }
 
-    private void drawNode(Pane pane, Node node, Node parent) {
+    private void drawNode(Pane pane, BSTNode node, BSTNode parent) {
         Circle circle = new Circle();
         circle.setRadius(circleRadius);
         circle.setFill(Color.RED);
@@ -202,7 +206,7 @@ public class BSTApplication extends Application {
      * 3.如果待删除节点有两个子节点，使用【后继节点中的最小子节点】替换当前节点
      */
     private boolean deleteNode(int value) {
-        Node node = searchNode(value);
+        BSTNode node = searchNode(value);
         if (node == null) {
             return false;
         }
@@ -224,7 +228,7 @@ public class BSTApplication extends Application {
 
     }
 
-    private boolean deleteNoChild(Node node, boolean isLeftChild) {
+    private boolean deleteNoChild(BSTNode node, boolean isLeftChild) {
         if (node == root) {
             root = null;
             return true;
@@ -237,7 +241,7 @@ public class BSTApplication extends Application {
         return true;
     }
 
-    private boolean deleteHasOneChild(Node node, boolean isLeftChild) {
+    private boolean deleteHasOneChild(BSTNode node, boolean isLeftChild) {
         if (node.leftChild != null) {  //只有左子节点
             if (node == root) {
                 root = node.leftChild;
@@ -268,8 +272,8 @@ public class BSTApplication extends Application {
         }
     }
 
-    private boolean deleteHasTwoChild(Node node, boolean isLeftChild) {
-        Node replaceNode = node.rightChild;
+    private boolean deleteHasTwoChild(BSTNode node, boolean isLeftChild) {
+        BSTNode replaceNode = node.rightChild;
         while (replaceNode.leftChild != null) {
             replaceNode = replaceNode.leftChild;
         }
@@ -331,8 +335,8 @@ public class BSTApplication extends Application {
      *
      * @param value
      */
-    private Node searchNode(int value) {
-        Node node = root;
+    private BSTNode searchNode(int value) {
+        BSTNode node = root;
         while (node != null) {
             if (node.value == value) {
                 break;
@@ -351,7 +355,7 @@ public class BSTApplication extends Application {
         return Math.log(value) / Math.log(base);
     }
 
-    private void showConsoleText(Node node) {
+    private void showConsoleText(BSTNode node) {
         String text = "node:" + node.toString() + "\n";
         text += "root:" + root.toString();
 
